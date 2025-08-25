@@ -5,6 +5,8 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <vector>
+#include <iostream>
 
 inline std::string now_ts() {
     using namespace std::chrono;
@@ -51,3 +53,8 @@ int tcp_connect(const std::string& host, unsigned short port);
 bool send_line(int fd, const std::string& s);
 bool recv_line(int fd, std::string& out);
 void close_fd(int fd);
+
+
+void list_log_files(int fd, Logger& log);
+void read_log_file(int fd, const std::string& filename, Logger& log);
+std::vector<std::string> get_log_files();

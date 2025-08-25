@@ -61,3 +61,49 @@ bool recv_line(int fd, std::string& out) {
 }
 
 void close_fd(int fd) { if (fd >= 0) ::close(fd); }
+
+
+void list_log_files(int fd, Logger& log) {
+    auto files = get_log_files();
+    send_line(fd, "可用日志文件:");
+    for (const auto& file : files) {
+        send_line(fd, "- " + file);
+    }
+    log.line("server", "sent log file list");
+}
+
+std::vector<std::string> get_log_files() {
+    std::vector<std::string> files;
+    for (const auto& entry : std::filesystem::directory_iterator("logs")) {
+        if (entry.path().extension() == ".log") {
+            files.push_back(entry.path().filename().string());
+        }
+    }
+    return files;
+}
+
+void read_log_file(int cfd, const std::string& filename, Logger& log) {
+    namespace fs = std::filesystem;
+
+    // 组合完整的日志文件路径
+    fs::path log_dir("logs");  // 日志目录
+    fs::path file_path = log_dir / filename;  // 组合完整路径
+
+    std::cout << "[debug] Trying to open: " << file_path << std::endl;
+
+    std::ifstream file(file_path);
+    if (!file.is_open()) {
+        std::string error_msg = "Error: Cannot open log file: " + filename;
+        send_line(cfd, error_msg);
+        std::cerr << error_msg << std::endl;
+        return;
+    }
+
+    // 读取并发送文件内容
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    send_line(cfd, "Log content:");
+    send_line(cfd, buffer.str());
+
+    file.close();
+}

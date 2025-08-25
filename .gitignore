@@ -71,3 +71,6 @@ nohup.out
 *.tmp
 "指令集.txt" 
 "指令集.txt" 
+RickyYY/build/
+*.exe
+*.o

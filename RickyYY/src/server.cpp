@@ -1,9 +1,9 @@
-#include "../include/common.hpp"
+ï»¿#include "../include/common.hpp"
 #include <iostream>
 
 
 int main(int argc, char** argv) {
-	unsigned short port = 9000; // Ä¬ÈÏ¶Ë¿Ú
+	unsigned short port = 9000; // é»˜è®¤ç«¯å£
 	if (argc >= 2) port = static_cast<unsigned short>(std::stoi(argv[1]));
 
 
@@ -21,17 +21,33 @@ int main(int argc, char** argv) {
 		std::cout << "[server] client connected\n";
 		log.line("server", "client connected");
 
+		send_line(cfd, "Commands:");
+		send_line(cfd, "  /logs - List all log files");
+		send_line(cfd, "  /read <filename> - Read specified log file");
+		send_line(cfd, "  /exit - Exit client");
 
 		std::string line;
 		while (recv_line(cfd, line)) {
-			// ¼ÇÂ¼¡°Ë­·¢µÄ/ÄÚÈİ¡±
-			log.line("client", line);
-			// ÕâÀï¾ÍÊÇ×î¼òµ¥µÄ»ØÏÔĞ­Òé£ºÊÕµ½Ê²Ã´¾Í»ØÊ²Ã´
-			std::cout << "[server] received: " << line << std::endl;   // ?? ĞÂÔö´òÓ¡
-			
-			if (!send_line(cfd, "server: " + line)) break;
-			log.line("server", std::string("server: ") + line);
-			std::cout << "[server] sent: server: " << line << std::endl; // ?? ĞÂÔö´òÓ¡
+			if (line == "/logs") {
+				list_log_files(cfd, log);
+			}
+			else if (line.rfind("/read ", 0) == 0) {
+				std::string filename = line.substr(6);
+				read_log_file(cfd, filename, log);
+				send_line(cfd, "> ");
+			}
+			else if (line == "/exit") {
+				send_line(cfd, "Goodbye!");
+				break;
+			}
+			else {
+				log.line("client", line);
+				std::cout << "[server] received: " << line << std::endl;
+
+				if (!send_line(cfd, "server: " + line)) break;
+				log.line("server", std::string("server: ") + line);
+				std::cout << "[server] sent: server: " << line << std::endl;
+			}
 		}
 		log.line("server", "client disconnected");
 		std::cout << "[server] client disconnected\n";
