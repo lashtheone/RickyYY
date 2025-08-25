@@ -74,3 +74,60 @@ nohup.out
 RickyYY/build/
 *.exe
 *.o
+# 构建产物  
+RickyYY/build/  
+RickyYY/out/  
+*.exe  
+*.o  
+*.obj  
+  
+# Visual Studio 文件  
+.vs/  
+RickyYY/.vs/  
+*.vcxproj*  
+*.sln  
+*.user  
+*.suo  
+*.userosscache  
+*.sln.docstates  
+  
+# 预编译头和缓存  
+*.ipch  
+*.pch  
+*.pdb  
+*.ilk  
+*.meta  
+*.obj  
+*.iobj  
+*.pdb  
+*.ipdb  
+*.pgc  
+*.pgd  
+*.rsp  
+*.sbr  
+*.tlb  
+*.tli  
+*.tlh  
+*.tmp  
+*.tmp_proj  
+*.log  
+*.vspscc  
+*.vssscc  
+.builds  
+*.pidb  
+*.svclog  
+*.scc  
+  
+# CMake 生成的文件  
+CMakeCache.txt  
+CMakeFiles/  
+cmake_install.cmake  
+Makefile  
+*.cmake  
+  
+# 其他临时文件  
+*.swp  
+*.swo  
+*~  
+.DS_Store  
+Thumbs.db  
