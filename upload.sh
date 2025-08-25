@@ -28,7 +28,7 @@ echo "开始上传到 GitHub..."
   
 # 添加所有文件（排除构建产物）  
 git add .  
-git add -f RickyYY/build.sh RickyYY/run_*.sh RickyYY/generate_run_scripts.sh RickyYY/CMakeLists.txt  
+git add -f RickyYY/build.sh RickyYY/run_*.sh  RickyYY/CMakeLists.txt  
   
 # 确保不上传构建产物  
 echo "RickyYY/build/" >> .gitignore  

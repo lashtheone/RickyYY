@@ -134,3 +134,6 @@ Thumbs.db
 RickyYY/build/
 *.exe
 *.o
+RickyYY/build/
+*.exe
+*.o
