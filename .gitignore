@@ -131,3 +131,6 @@ Makefile
 *~  
 .DS_Store  
 Thumbs.db  
+RickyYY/build/
+*.exe
+*.o
